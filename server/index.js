@@ -10,6 +10,7 @@ const uploadRoutes = require('./routes/upload');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
+const HOST = process.env.HOST || '0.0.0.0';
 
 // Middleware
 app.use(cors());
@@ -53,10 +54,11 @@ app.use((error, req, res, next) => {
   });
 });
 
-app.listen(PORT, () => {
-  console.log(`🚀 Server running on port ${PORT}`);
+app.listen(PORT, HOST, () => {
+  console.log(`🚀 Server running on http://${HOST}:${PORT}`);
   console.log(`📊 Prototype Text Review Tool ready!`);
   console.log(`🌐 Access the tool at: http://localhost:${PORT}`);
+  console.log(`🌐 Or from external: http://${HOST}:${PORT}`);
 });
 
 module.exports = app;
