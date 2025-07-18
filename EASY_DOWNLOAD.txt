@@ -1,0 +1,16 @@
+🎯 EASY WAY TO GET YOUR WORKING TOOL:
+
+1. In Cursor, look at the LEFT SIDEBAR (file explorer)
+2. Find the file: prototype-text-review-tool.html
+3. CLICK on it to open it
+4. Press Ctrl+A (or Cmd+A on Mac) to select all
+5. Press Ctrl+C (or Cmd+C on Mac) to copy
+6. Open Notepad/TextEdit and paste
+7. Save as: my-tool.html
+8. Double-click the file to open in browser
+
+OR
+
+Just click on "prototype-text-review-tool.html" in the file explorer and it should open right in Cursor, then you can see the full working code!
+
+The file is definitely there and working - it's a complete standalone tool that works in any browser without needing a server.
