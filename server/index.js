@@ -20,6 +20,11 @@ app.use(bodyParser.urlencoded({ extended: true, limit: '50mb' }));
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.use('/exports', express.static(path.join(__dirname, 'exports')));
 
+// Serve the main application at the root
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
+
 // API Routes
 app.use('/api/figma', figmaRoutes);
 app.use('/api/spreadsheet', spreadsheetRoutes);
@@ -30,12 +35,12 @@ app.get('/api/health', (req, res) => {
   res.json({ status: 'OK', message: 'Prototype Text Review Tool API is running' });
 });
 
-// Serve React app in production
+// Serve React app in production (fallback)
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static(path.join(__dirname, '../client/build')));
   
   app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, '../client/build', 'index.html'));
+    res.sendFile(path.join(__dirname, 'public', 'index.html'));
   });
 }
 
@@ -50,7 +55,8 @@ app.use((error, req, res, next) => {
 
 app.listen(PORT, () => {
   console.log(`🚀 Server running on port ${PORT}`);
-  console.log(`📊 Prototype Text Review Tool API ready!`);
+  console.log(`📊 Prototype Text Review Tool ready!`);
+  console.log(`🌐 Access the tool at: http://localhost:${PORT}`);
 });
 
 module.exports = app;

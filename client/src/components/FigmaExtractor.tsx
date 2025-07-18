@@ -22,8 +22,6 @@ const FigmaExtractor: React.FC<FigmaExtractorProps> = ({
   const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
 
   const extractFileIdFromUrl = (url: string): string => {
-    // Extract file ID from Figma URL
-    // Format: https://www.figma.com/file/{fileId}/...
     const match = url.match(/\/file\/([a-zA-Z0-9]+)/);
     return match ? match[1] : url;
   };
@@ -87,7 +85,6 @@ const FigmaExtractor: React.FC<FigmaExtractorProps> = ({
   };
 
   const loadDemoData = () => {
-    // Load demo data for testing without Figma API
     const demoData: TextElement[] = [
       {
         id: 'demo-1',
@@ -131,112 +128,109 @@ const FigmaExtractor: React.FC<FigmaExtractorProps> = ({
   };
 
   return (
-    <div className="max-w-2xl mx-auto">
-      <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-        <div className="space-y-6">
-          <div>
-            <label htmlFor="figma-url" className="block text-sm font-medium text-gray-700 mb-2">
-              Figma File URL or File ID
-            </label>
-            <input
-              id="figma-url"
-              type="text"
-              value={fileId}
-              onChange={(e) => handleFileIdChange(e.target.value)}
-              placeholder="https://www.figma.com/file/abc123... or just abc123"
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-            />
-            <p className="mt-1 text-xs text-gray-500">
-              Paste the full Figma URL or just the file ID
-            </p>
-          </div>
+    <div style={{ maxWidth: '600px', margin: '0 auto' }}>
+      <div className="card">
+        <div className="form-group">
+          <label htmlFor="figma-url">
+            Figma File URL or File ID
+          </label>
+          <input
+            id="figma-url"
+            type="text"
+            value={fileId}
+            onChange={(e) => handleFileIdChange(e.target.value)}
+            placeholder="https://www.figma.com/file/abc123... or just abc123"
+          />
+          <p className="text-xs text-gray-500" style={{ marginTop: '0.25rem' }}>
+            Paste the full Figma URL or just the file ID
+          </p>
+        </div>
 
-          <div>
-            <label htmlFor="access-token" className="block text-sm font-medium text-gray-700 mb-2">
-              Figma Access Token
-            </label>
-            <input
-              id="access-token"
-              type="password"
-              value={accessToken}
-              onChange={(e) => setAccessToken(e.target.value)}
-              placeholder="figd_..."
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-            />
-            <p className="mt-1 text-xs text-gray-500">
-              Get your token from{' '}
-              <a 
-                href="https://www.figma.com/developers/api#access-tokens" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="text-blue-600 hover:text-blue-800"
-              >
-                Figma Developer Settings
-              </a>
-            </p>
-          </div>
+        <div className="form-group">
+          <label htmlFor="access-token">
+            Figma Access Token
+          </label>
+          <input
+            id="access-token"
+            type="password"
+            value={accessToken}
+            onChange={(e) => setAccessToken(e.target.value)}
+            placeholder="figd_..."
+          />
+          <p className="text-xs text-gray-500" style={{ marginTop: '0.25rem' }}>
+            Get your token from{' '}
+            <a 
+              href="https://www.figma.com/developers/api#access-tokens" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="text-blue-600"
+            >
+              Figma Developer Settings
+            </a>
+          </p>
+        </div>
 
-          {fileInfo && (
-            <div className="bg-blue-50 border border-blue-200 rounded-md p-4">
-              <h4 className="font-medium text-blue-900 mb-2">File Information</h4>
-              <div className="text-sm text-blue-800 space-y-1">
-                <p><strong>Name:</strong> {fileInfo.name}</p>
-                <p><strong>Last Modified:</strong> {new Date(fileInfo.lastModified).toLocaleDateString()}</p>
-                <p><strong>Pages:</strong> {fileInfo.document.children}</p>
-              </div>
+        {fileInfo && (
+          <div className="alert alert-success">
+            <h4 style={{ fontWeight: '500', marginBottom: '0.5rem' }}>File Information</h4>
+            <div className="text-sm">
+              <p><strong>Name:</strong> {fileInfo.name}</p>
+              <p><strong>Last Modified:</strong> {new Date(fileInfo.lastModified).toLocaleDateString()}</p>
+              <p><strong>Pages:</strong> {fileInfo.document.children}</p>
             </div>
-          )}
-
-          <div className="flex flex-col sm:flex-row gap-3">
-            <button
-              onClick={getFileInfo}
-              disabled={loading || !fileId || !accessToken}
-              className="flex-1 px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              {loading ? 'Connecting...' : 'Check File'}
-            </button>
-
-            <button
-              onClick={extractText}
-              disabled={loading || !fileId || !accessToken}
-              className="flex-1 px-4 py-2 text-sm font-medium text-white bg-blue-600 border border-transparent rounded-md hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              {loading ? (
-                <div className="flex items-center justify-center">
-                  <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
-                  Extracting...
-                </div>
-              ) : (
-                'Extract Text'
-              )}
-            </button>
           </div>
+        )}
 
-          <div className="border-t border-gray-200 pt-4">
-            <p className="text-sm text-gray-600 mb-3">
-              Don't have a Figma file ready? Try our demo data:
-            </p>
-            <button
-              onClick={loadDemoData}
-              className="w-full px-4 py-2 text-sm font-medium text-blue-700 bg-blue-100 border border-blue-300 rounded-md hover:bg-blue-200"
-            >
-              Load Demo Data
-            </button>
-          </div>
+        <div style={{ display: 'flex', gap: '0.75rem', marginBottom: '1.5rem' }}>
+          <button
+            onClick={getFileInfo}
+            disabled={loading || !fileId || !accessToken}
+            className="btn-secondary"
+            style={{ flex: 1 }}
+          >
+            {loading ? 'Connecting...' : 'Check File'}
+          </button>
+
+          <button
+            onClick={extractText}
+            disabled={loading || !fileId || !accessToken}
+            className="btn-primary"
+            style={{ flex: 1 }}
+          >
+            {loading ? (
+              <span>
+                <span className="spinner"></span>
+                Extracting...
+              </span>
+            ) : (
+              'Extract Text'
+            )}
+          </button>
+        </div>
+
+        <div style={{ borderTop: '1px solid #e5e7eb', paddingTop: '1rem' }}>
+          <p className="text-sm text-gray-600 mb-4">
+            Don't have a Figma file ready? Try our demo data:
+          </p>
+          <button
+            onClick={loadDemoData}
+            className="btn-demo"
+          >
+            🚀 Load Demo Data
+          </button>
         </div>
       </div>
 
-      {/* Instructions Card */}
-      <div className="mt-6 bg-gray-50 rounded-lg p-6">
-        <h3 className="font-medium text-gray-900 mb-3">How to get your Figma Access Token:</h3>
-        <ol className="text-sm text-gray-600 space-y-2 list-decimal list-inside">
+      <div className="card" style={{ backgroundColor: '#f9fafb' }}>
+        <h3 style={{ fontWeight: '500', marginBottom: '0.75rem' }}>How to get your Figma Access Token:</h3>
+        <ol className="text-sm text-gray-600" style={{ paddingLeft: '1.25rem', lineHeight: '1.6' }}>
           <li>Go to your Figma account settings</li>
           <li>Navigate to "Personal access tokens"</li>
           <li>Click "Create new token"</li>
           <li>Give it a name and copy the token</li>
           <li>Paste it in the field above</li>
         </ol>
-        <p className="text-xs text-gray-500 mt-3">
+        <p className="text-xs text-gray-500 mt-4">
           Note: Your token is only used to connect to Figma and is not stored anywhere.
         </p>
       </div>

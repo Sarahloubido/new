@@ -50,23 +50,23 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div style={{ minHeight: '100vh', backgroundColor: '#f9fafb' }}>
       <Header />
       
-      <main className="container mx-auto px-4 py-8">
+      <main className="container" style={{ padding: '2rem 0' }}>
         {error && (
-          <div className="mb-6 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
+          <div className="alert alert-error">
             <strong>Error:</strong> {error}
           </div>
         )}
 
         {currentStep === 'extract' && (
-          <div className="space-y-8">
-            <div className="text-center">
-              <h2 className="text-3xl font-bold text-gray-900 mb-4">
+          <div style={{ marginBottom: '2rem' }}>
+            <div className="text-center mb-6">
+              <h2 style={{ fontSize: '2rem', fontWeight: 'bold', marginBottom: '1rem' }}>
                 Extract Text from Prototype
               </h2>
-              <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+              <p className="text-gray-600" style={{ fontSize: '1.125rem', maxWidth: '600px', margin: '0 auto' }}>
                 Connect your Figma file to extract all text elements and generate a spreadsheet for editing.
               </p>
             </div>
@@ -81,10 +81,10 @@ function App() {
         )}
 
         {currentStep === 'review' && extractedData.length > 0 && (
-          <div className="space-y-8">
-            <div className="flex justify-between items-center">
+          <div style={{ marginBottom: '2rem' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem' }}>
               <div>
-                <h2 className="text-3xl font-bold text-gray-900 mb-2">
+                <h2 style={{ fontSize: '2rem', fontWeight: 'bold', marginBottom: '0.5rem' }}>
                   Review Extracted Text
                 </h2>
                 <p className="text-gray-600">
@@ -93,13 +93,13 @@ function App() {
               </div>
               <button
                 onClick={resetApp}
-                className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50"
+                className="btn-secondary"
               >
                 Start Over
               </button>
             </div>
 
-            <div className="grid lg:grid-cols-2 gap-8">
+            <div className="two-column">
               <div>
                 <SpreadsheetManager 
                   data={extractedData}
@@ -116,21 +116,20 @@ function App() {
         )}
 
         {currentStep === 'update' && (
-          <div className="text-center space-y-6">
-            <div className="max-w-md mx-auto">
-              <div className="rounded-full bg-green-100 p-3 mx-auto w-16 h-16 flex items-center justify-center mb-4">
-                <svg className="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                </svg>
+          <div className="text-center">
+            <div style={{ maxWidth: '400px', margin: '0 auto' }}>
+              <div className="success-icon">
+                ✓
               </div>
-              <h2 className="text-2xl font-bold text-gray-900 mb-2">Updates Prepared!</h2>
+              <h2 style={{ fontSize: '1.5rem', fontWeight: 'bold', marginBottom: '0.5rem' }}>Updates Prepared!</h2>
               <p className="text-gray-600 mb-6">
                 Your text updates have been prepared. Since direct Figma updates require plugin access, 
                 you can use the generated update instructions to apply changes manually.
               </p>
               <button
                 onClick={resetApp}
-                className="px-6 py-3 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700"
+                className="btn-primary"
+                style={{ padding: '0.75rem 1.5rem' }}
               >
                 Process Another File
               </button>
