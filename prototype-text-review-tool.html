@@ -1,0 +1,817 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prototype Text Review Tool</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            background-color: #f9fafb;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        header {
+            background: white;
+            border-bottom: 1px solid #e5e7eb;
+            padding: 1rem 0;
+            margin-bottom: 2rem;
+        }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo-icon {
+            width: 2rem;
+            height: 2rem;
+            background: #3b82f6;
+            border-radius: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1rem;
+        }
+
+        h1 {
+            font-size: 1.25rem;
+            font-weight: bold;
+            color: #111827;
+            margin: 0;
+        }
+
+        h2 {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            color: #111827;
+        }
+
+        h3 {
+            font-size: 1.125rem;
+            font-weight: 500;
+            margin-bottom: 1rem;
+            color: #111827;
+        }
+
+        .subtitle {
+            font-size: 0.875rem;
+            color: #6b7280;
+        }
+
+        .card {
+            background: white;
+            border-radius: 0.5rem;
+            border: 1px solid #e5e7eb;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        label {
+            display: block;
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: #374151;
+            margin-bottom: 0.5rem;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 0.5rem 0.75rem;
+            border: 1px solid #d1d5db;
+            border-radius: 0.375rem;
+            font-size: 0.875rem;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        button {
+            padding: 0.5rem 1rem;
+            border-radius: 0.375rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+            cursor: pointer;
+            border: none;
+            transition: all 0.2s;
+        }
+
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .btn-primary {
+            background: #3b82f6;
+            color: white;
+        }
+
+        .btn-primary:hover:not(:disabled) {
+            background: #2563eb;
+        }
+
+        .btn-demo {
+            background: #eff6ff;
+            color: #1d4ed8;
+            border: 1px solid #bfdbfe;
+            width: 100%;
+            padding: 0.75rem;
+            font-size: 1rem;
+            margin-top: 1rem;
+        }
+
+        .btn-demo:hover {
+            background: #dbeafe;
+        }
+
+        .btn-secondary {
+            background: white;
+            color: #374151;
+            border: 1px solid #d1d5db;
+        }
+
+        .btn-secondary:hover {
+            background: #f9fafb;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .text-sm {
+            font-size: 0.875rem;
+        }
+
+        .text-xs {
+            font-size: 0.75rem;
+        }
+
+        .text-gray-600 {
+            color: #4b5563;
+        }
+
+        .text-gray-500 {
+            color: #6b7280;
+        }
+
+        .text-blue-600 {
+            color: #2563eb;
+        }
+
+        .text-green-600 {
+            color: #059669;
+        }
+
+        .alert {
+            padding: 0.75rem 1rem;
+            border-radius: 0.375rem;
+            margin-bottom: 1rem;
+        }
+
+        .alert-error {
+            background: #fef2f2;
+            border: 1px solid #fecaca;
+            color: #991b1b;
+        }
+
+        .alert-success {
+            background: #f0fdf4;
+            border: 1px solid #bbf7d0;
+            color: #166534;
+        }
+
+        .alert-info {
+            background: #eff6ff;
+            border: 1px solid #bfdbfe;
+            color: #1d4ed8;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+
+        th, td {
+            padding: 0.75rem;
+            text-align: left;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        th {
+            background: #f9fafb;
+            font-weight: 500;
+            color: #374151;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        tr:hover {
+            background: #f9fafb;
+        }
+
+        .two-column {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        @media (max-width: 768px) {
+            .two-column {
+                grid-template-columns: 1fr;
+            }
+            
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+
+        .spinner {
+            border: 2px solid #f3f3f3;
+            border-top: 2px solid #3b82f6;
+            border-radius: 50%;
+            width: 1rem;
+            height: 1rem;
+            animation: spin 1s linear infinite;
+            display: inline-block;
+            margin-right: 0.5rem;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .success-section {
+            text-align: center;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        .success-icon {
+            width: 4rem;
+            height: 4rem;
+            background: #d1fae5;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            color: #059669;
+            font-size: 1.5rem;
+        }
+
+        .file-upload {
+            border: 2px dashed #d1d5db;
+            border-radius: 0.5rem;
+            padding: 2rem;
+            text-align: center;
+            background: #f9fafb;
+            cursor: pointer;
+            margin: 1rem 0;
+            transition: background 0.2s;
+        }
+
+        .file-upload:hover {
+            background: #f3f4f6;
+        }
+
+        .step-indicator {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 2rem;
+            gap: 1rem;
+        }
+
+        .step {
+            padding: 0.5rem 1rem;
+            border-radius: 0.375rem;
+            font-size: 0.875rem;
+            background: #f3f4f6;
+            color: #6b7280;
+        }
+
+        .step.active {
+            background: #3b82f6;
+            color: white;
+        }
+
+        .step.completed {
+            background: #10b981;
+            color: white;
+        }
+
+        .feature-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
+        .feature {
+            background: white;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            border: 1px solid #e5e7eb;
+        }
+
+        .feature-icon {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <div class="logo-icon">📝</div>
+                    <div>
+                        <h1>Prototype Text Review Tool</h1>
+                        <p class="subtitle">Extract • Edit • Update</p>
+                    </div>
+                </div>
+                <div class="text-sm text-gray-600">
+                    <strong>Standalone Version</strong> - No server required!
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <!-- Step Indicator -->
+        <div class="step-indicator">
+            <div class="step active" id="step-1">1. Extract Text</div>
+            <div class="step" id="step-2">2. Review & Edit</div>
+            <div class="step" id="step-3">3. Apply Updates</div>
+        </div>
+
+        <div id="error-message" class="alert alert-error hidden">
+            <strong>Error:</strong> <span id="error-text"></span>
+        </div>
+
+        <!-- Welcome Section -->
+        <div id="welcome-section" class="text-center">
+            <h2>Welcome to the Prototype Text Review Tool</h2>
+            <p class="text-gray-600" style="font-size: 1.125rem; max-width: 600px; margin: 0 auto 2rem;">
+                This tool helps you extract text from design prototypes, edit content in spreadsheets, and apply updates back to your designs.
+            </p>
+
+            <div class="alert alert-info">
+                <p><strong>🎉 Standalone Version:</strong> This version works entirely in your browser - no server or internet connection required!</p>
+                <p class="text-sm" style="margin-top: 0.5rem;">For full Figma integration, you'd need the server version.</p>
+            </div>
+
+            <div class="feature-list">
+                <div class="feature">
+                    <div class="feature-icon">🎨</div>
+                    <h3 style="font-size: 1rem; margin-bottom: 0.5rem;">Demo Data Ready</h3>
+                    <p class="text-sm text-gray-600">Try the full workflow with sample text elements</p>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">📊</div>
+                    <h3 style="font-size: 1rem; margin-bottom: 0.5rem;">CSV Export</h3>
+                    <p class="text-sm text-gray-600">Download spreadsheets for easy editing</p>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">⚡</div>
+                    <h3 style="font-size: 1rem; margin-bottom: 0.5rem;">Instant Processing</h3>
+                    <p class="text-sm text-gray-600">Upload edited files and see changes immediately</p>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">🔄</div>
+                    <h3 style="font-size: 1rem; margin-bottom: 0.5rem;">Complete Workflow</h3>
+                    <p class="text-sm text-gray-600">Full extract → edit → update process</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 1: Extract Text -->
+        <div id="extract-step" class="hidden">
+            <div class="text-center" style="margin-bottom: 2rem;">
+                <h2>Extract Text from Prototype</h2>
+                <p class="text-gray-600" style="font-size: 1.125rem; max-width: 600px; margin: 0 auto;">
+                    Load sample data to see how the text extraction and editing workflow works.
+                </p>
+            </div>
+
+            <div style="max-width: 600px; margin: 0 auto;">
+                <div class="card">
+                    <h3>Demo Mode</h3>
+                    <p class="text-sm text-gray-600" style="margin-bottom: 1rem;">
+                        Try the complete workflow with sample text elements from a fictional design prototype.
+                    </p>
+                    <button id="demo-btn" class="btn-demo">
+                        🚀 Load Demo Data (4 Text Elements)
+                    </button>
+                </div>
+
+                <div class="card" style="background-color: #f9fafb;">
+                    <h3 style="font-weight: 500; margin-bottom: 0.75rem;">What's included in demo data:</h3>
+                    <ul class="text-sm text-gray-600" style="padding-left: 1.25rem; line-height: 1.6;">
+                        <li>App title: "Welcome to Our App"</li>
+                        <li>Call-to-action button: "Get started today"</li>
+                        <li>Subtitle: "Join thousands of users who trust our platform"</li>
+                        <li>Navigation link: "Learn More"</li>
+                    </ul>
+                    <p class="text-xs text-gray-500" style="margin-top: 1rem;">
+                        Each element includes frame name, component path, and styling context.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 2: Review Text -->
+        <div id="review-step" class="hidden">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+                <div>
+                    <h2 style="margin-bottom: 0.5rem;">Review Extracted Text</h2>
+                    <p class="text-gray-600">
+                        <span id="text-count">0</span> text elements found. Download as spreadsheet for editing.
+                    </p>
+                </div>
+                <button id="start-over-btn" class="btn-secondary">
+                    ← Start Over
+                </button>
+            </div>
+
+            <div class="two-column">
+                <div class="card">
+                    <h3>Spreadsheet Management</h3>
+                    <p class="text-sm text-gray-600" style="margin-bottom: 1.5rem;">
+                        Export for editing or upload your changes
+                    </p>
+
+                    <div style="margin-bottom: 1.5rem;">
+                        <h4 style="font-size: 0.875rem; font-weight: 500; margin-bottom: 1rem;">
+                            📥 1. Export for Editing
+                        </h4>
+                        <button id="download-csv-btn" class="btn-primary" style="width: 100%; margin-bottom: 0.5rem;">
+                            📄 Download CSV File
+                        </button>
+                        <p class="text-xs text-gray-500">
+                            Opens in Excel, Google Sheets, or any spreadsheet app
+                        </p>
+                    </div>
+
+                    <div style="border-top: 1px solid #e5e7eb; padding-top: 1.5rem; margin-bottom: 1.5rem;">
+                        <h4 style="font-size: 0.875rem; font-weight: 500; margin-bottom: 1rem;">
+                            📤 2. Upload Edited File
+                        </h4>
+                        
+                        <div class="file-upload" onclick="document.getElementById('file-input').click()">
+                            <div style="font-size: 2rem; margin-bottom: 0.5rem;">📁</div>
+                            <p style="margin: 0.5rem 0;">
+                                <strong>Click to upload</strong> your edited file
+                            </p>
+                            <p class="text-sm text-gray-600">CSV or Excel files accepted</p>
+                            <input type="file" id="file-input" accept=".csv,.xlsx,.xls" style="display: none;">
+                        </div>
+
+                        <div id="upload-preview" class="alert alert-success hidden">
+                            <p><strong>✅ File uploaded successfully!</strong></p>
+                            <p class="text-sm">Found <span id="update-count">0</span> text updates</p>
+                            <div id="changes-preview" style="margin-top: 0.5rem;"></div>
+                        </div>
+                    </div>
+
+                    <div style="border-top: 1px solid #e5e7eb; padding-top: 1.5rem;">
+                        <h4 style="font-size: 0.875rem; font-weight: 500; margin-bottom: 1rem;">
+                            ⚡ 3. Apply Updates
+                        </h4>
+                        <button id="apply-updates-btn" class="btn-primary" style="width: 100%;" disabled>
+                            Apply <span id="update-count-btn">0</span> Updates
+                        </button>
+                        <p class="text-xs text-gray-500" style="margin-top: 0.5rem;">
+                            Upload an edited file to enable this button
+                        </p>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>Extracted Text Elements (<span id="text-count-2">0</span>)</h3>
+                    <p class="text-sm text-gray-600" style="margin-bottom: 1rem;">
+                        Preview of all text content found in your prototype
+                    </p>
+                    <div id="text-table-container">
+                        <table id="text-table">
+                            <thead>
+                                <tr>
+                                    <th>Text Content</th>
+                                    <th>Location</th>
+                                    <th>Context</th>
+                                </tr>
+                            </thead>
+                            <tbody id="text-table-body">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 3: Success -->
+        <div id="success-step" class="hidden">
+            <div class="success-section">
+                <div class="success-icon">✓</div>
+                <h2 style="font-size: 1.5rem; margin-bottom: 0.5rem;">Updates Prepared!</h2>
+                <p class="text-gray-600" style="margin-bottom: 2rem;">
+                    Your text updates have been processed successfully. In a real workflow, these changes would be applied to your design prototype.
+                </p>
+                
+                <div class="alert alert-info" style="margin-bottom: 2rem; text-align: left;">
+                    <h4 style="margin-bottom: 0.5rem;">📋 Next Steps:</h4>
+                    <ul style="padding-left: 1.5rem; margin: 0;">
+                        <li>Review the console for detailed update information</li>
+                        <li>In a full setup, these would sync back to Figma</li>
+                        <li>Use this data to manually update your designs</li>
+                    </ul>
+                </div>
+
+                <button id="process-another-btn" class="btn-primary" style="padding: 0.75rem 1.5rem;">
+                    🔄 Process Another File
+                </button>
+            </div>
+        </div>
+
+        <!-- Start Button -->
+        <div id="start-section" class="text-center">
+            <button id="start-btn" class="btn-primary" style="padding: 1rem 2rem; font-size: 1rem;">
+                🚀 Get Started
+            </button>
+        </div>
+    </main>
+
+    <script>
+        let extractedData = [];
+        let uploadedUpdates = [];
+
+        // Demo data
+        const demoData = [
+            {
+                id: 'demo-1',
+                original_text: 'Welcome to Our App',
+                edited_text: '',
+                frame_name: 'Landing Page',
+                component_path: 'MainFrame/Header/Title',
+                context_notes: 'Font: Inter, Size: 32px, Position: (120, 80)'
+            },
+            {
+                id: 'demo-2',
+                original_text: 'Get started today',
+                edited_text: '',
+                frame_name: 'Landing Page', 
+                component_path: 'MainFrame/CTASection/Button',
+                context_notes: 'Font: Inter, Size: 16px, Position: (200, 300)'
+            },
+            {
+                id: 'demo-3',
+                original_text: 'Join thousands of users who trust our platform',
+                edited_text: '',
+                frame_name: 'Landing Page',
+                component_path: 'MainFrame/CTASection/Subtitle', 
+                context_notes: 'Font: Inter, Size: 18px, Position: (150, 250)'
+            },
+            {
+                id: 'demo-4',
+                original_text: 'Learn More',
+                edited_text: '',
+                frame_name: 'About Page',
+                component_path: 'AboutFrame/InfoSection/LinkButton',
+                context_notes: 'Font: Inter, Size: 14px, Position: (300, 400)'
+            }
+        ];
+
+        function showError(message) {
+            document.getElementById('error-text').textContent = message;
+            document.getElementById('error-message').classList.remove('hidden');
+            setTimeout(() => {
+                document.getElementById('error-message').classList.add('hidden');
+            }, 5000);
+        }
+
+        function updateStepIndicator(activeStep) {
+            for (let i = 1; i <= 3; i++) {
+                const step = document.getElementById(`step-${i}`);
+                step.classList.remove('active', 'completed');
+                if (i < activeStep) {
+                    step.classList.add('completed');
+                } else if (i === activeStep) {
+                    step.classList.add('active');
+                }
+            }
+        }
+
+        function showSection(sectionId) {
+            ['welcome-section', 'extract-step', 'review-step', 'success-step', 'start-section'].forEach(id => {
+                document.getElementById(id).classList.add('hidden');
+            });
+            document.getElementById(sectionId).classList.remove('hidden');
+        }
+
+        function showStep(step) {
+            const sections = {
+                'extract': 'extract-step',
+                'review': 'review-step', 
+                'success': 'success-step'
+            };
+            
+            showSection(sections[step]);
+            
+            const stepNumbers = { 'extract': 1, 'review': 2, 'success': 3 };
+            updateStepIndicator(stepNumbers[step]);
+        }
+
+        function displayTextData(data) {
+            extractedData = data;
+            document.getElementById('text-count').textContent = data.length;
+            document.getElementById('text-count-2').textContent = data.length;
+            
+            const tbody = document.getElementById('text-table-body');
+            tbody.innerHTML = '';
+            
+            data.forEach(item => {
+                const row = tbody.insertRow();
+                row.innerHTML = `
+                    <td>
+                        <strong>"${item.original_text}"</strong><br>
+                        <small style="color: #6b7280;">ID: ${item.id}</small>
+                    </td>
+                    <td>
+                        <strong>${item.frame_name}</strong><br>
+                        <small style="color: #6b7280;">${item.component_path}</small>
+                    </td>
+                    <td>
+                        <small style="color: #6b7280;">${item.context_notes}</small>
+                    </td>
+                `;
+            });
+            
+            showStep('review');
+        }
+
+        function generateCSV(data) {
+            const headers = ['id', 'original_text', 'edited_text', 'frame_name', 'component_path', 'context_notes'];
+            const csvContent = [
+                headers.join(','),
+                ...data.map(row => headers.map(header => `"${(row[header] || '').replace(/"/g, '""')}"`).join(','))
+            ].join('\n');
+            
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement('a');
+            const url = URL.createObjectURL(blob);
+            link.setAttribute('href', url);
+            link.setAttribute('download', `text_review_${new Date().toISOString().split('T')[0]}.csv`);
+            link.style.visibility = 'hidden';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        function processUploadedFile(file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const content = e.target.result;
+                    const lines = content.split('\n').filter(line => line.trim());
+                    
+                    if (lines.length < 2) {
+                        throw new Error('File appears to be empty or invalid');
+                    }
+                    
+                    const headers = lines[0].split(',').map(h => h.replace(/"/g, '').trim());
+                    
+                    uploadedUpdates = [];
+                    const changes = [];
+                    
+                    for (let i = 1; i < lines.length; i++) {
+                        const values = lines[i].split(',').map(v => v.replace(/"/g, '').trim());
+                        const row = {};
+                        headers.forEach((header, index) => {
+                            row[header] = values[index] || '';
+                        });
+                        
+                        if (row.edited_text && row.edited_text.trim() && row.edited_text !== row.original_text) {
+                            uploadedUpdates.push(row);
+                            changes.push(`"${row.original_text}" → "${row.edited_text}"`);
+                        }
+                    }
+                    
+                    document.getElementById('update-count').textContent = uploadedUpdates.length;
+                    document.getElementById('update-count-btn').textContent = uploadedUpdates.length;
+                    
+                    const changesPreview = document.getElementById('changes-preview');
+                    if (changes.length > 0) {
+                        changesPreview.innerHTML = `
+                            <p class="text-xs" style="margin-top: 0.5rem;"><strong>Preview of changes:</strong></p>
+                            <div class="text-xs" style="margin-top: 0.25rem;">
+                                ${changes.slice(0, 3).map(change => `<div>• ${change}</div>`).join('')}
+                                ${changes.length > 3 ? `<div style="color: #059669;">...and ${changes.length - 3} more changes</div>` : ''}
+                            </div>
+                        `;
+                    }
+                    
+                    document.getElementById('upload-preview').classList.remove('hidden');
+                    document.getElementById('apply-updates-btn').disabled = uploadedUpdates.length === 0;
+                    
+                } catch (error) {
+                    showError('Failed to process uploaded file. Please check the format and try again.');
+                    console.error('File processing error:', error);
+                }
+            };
+            reader.readAsText(file);
+        }
+
+        // Event listeners
+        document.getElementById('start-btn').addEventListener('click', () => {
+            showStep('extract');
+        });
+
+        document.getElementById('demo-btn').addEventListener('click', () => {
+            displayTextData(demoData);
+        });
+
+        document.getElementById('download-csv-btn').addEventListener('click', () => {
+            generateCSV(extractedData);
+        });
+
+        document.getElementById('file-input').addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                processUploadedFile(file);
+            }
+        });
+
+        document.getElementById('apply-updates-btn').addEventListener('click', () => {
+            if (uploadedUpdates.length > 0) {
+                console.log('📊 Text updates to apply:', uploadedUpdates);
+                console.log('🎯 Summary:', uploadedUpdates.map(u => `${u.id}: "${u.original_text}" → "${u.edited_text}"`));
+                
+                showStep('success');
+                updateStepIndicator(3);
+            }
+        });
+
+        document.getElementById('start-over-btn').addEventListener('click', () => {
+            extractedData = [];
+            uploadedUpdates = [];
+            document.getElementById('upload-preview').classList.add('hidden');
+            document.getElementById('apply-updates-btn').disabled = true;
+            document.getElementById('file-input').value = '';
+            showSection('welcome-section');
+            updateStepIndicator(1);
+        });
+
+        document.getElementById('process-another-btn').addEventListener('click', () => {
+            extractedData = [];
+            uploadedUpdates = [];
+            document.getElementById('upload-preview').classList.add('hidden');
+            document.getElementById('apply-updates-btn').disabled = true;
+            document.getElementById('file-input').value = '';
+            showSection('welcome-section');
+            updateStepIndicator(1);
+        });
+
+        // Initialize
+        showSection('welcome-section');
+        updateStepIndicator(1);
+    </script>
+</body>
+</html>
