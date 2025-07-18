@@ -26,6 +26,11 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
+// Serve the standalone version
+app.get('/standalone', (req, res) => {
+    res.sendFile(path.join(__dirname, '..', 'prototype-text-review-tool.html'));
+});
+
 // API Routes
 app.use('/api/figma', figmaRoutes);
 app.use('/api/spreadsheet', spreadsheetRoutes);
