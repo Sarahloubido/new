@@ -21,12 +21,7 @@ app.use(bodyParser.urlencoded({ extended: true, limit: '50mb' }));
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.use('/exports', express.static(path.join(__dirname, 'exports')));
 
-// Serve the main application at the root
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'index.html'));
-});
-
-// API Routes
+// API Routes (these should come before static file serving)
 app.use('/api/figma', figmaRoutes);
 app.use('/api/spreadsheet', spreadsheetRoutes);
 app.use('/api/upload', uploadRoutes);
@@ -36,12 +31,27 @@ app.get('/api/health', (req, res) => {
   res.json({ status: 'OK', message: 'Prototype Text Review Tool API is running' });
 });
 
-// Serve React app in production (fallback)
+// Serve the standalone version (for development/demo)
+app.get('/standalone', (req, res) => {
+  res.sendFile(path.join(__dirname, '..', 'prototype-text-review-tool.html'));
+});
+
+// Serve React app (production and development)
 if (process.env.NODE_ENV === 'production') {
+  // In production, serve the built React app
   app.use(express.static(path.join(__dirname, '../build')));
   
+  // Catch-all handler: send back React's index.html file for client-side routing
   app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, '../build', 'index.html'));
+  });
+} else {
+  // In development, serve the server's public files
+  app.use(express.static(path.join(__dirname, 'public')));
+  
+  // Serve the main application at the root (development mode)
+  app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'index.html'));
   });
 }
 
@@ -59,6 +69,7 @@ app.listen(PORT, HOST, () => {
   console.log(`📊 Prototype Text Review Tool ready!`);
   console.log(`🌐 Access the tool at: http://localhost:${PORT}`);
   console.log(`🌐 Or from external: http://${HOST}:${PORT}`);
+  console.log(`🏗️  Mode: ${process.env.NODE_ENV || 'development'}`);
 });
 
 module.exports = app;
