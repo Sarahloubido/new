@@ -6,12 +6,13 @@
   "scripts": {
     "dev": "concurrently \"npm run server:dev\" \"npm run client:dev\"",
     "server:dev": "nodemon server/index.js",
-    "client:dev": "react-scripts start",
-    "build": "react-scripts build",
+    "client:dev": "npx react-scripts start",
+    "build": "npx react-scripts build",
+    "build:alt": "node build.js",
     "start": "node server/index.js",
     "setup": "npm install",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "test": "npx react-scripts test",
+    "eject": "npx react-scripts eject"
   },
   "dependencies": {
     "express": "^4.18.2",
