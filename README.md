@@ -65,6 +65,30 @@ prototype-text-review-tool/
    - Backend server on `http://localhost:5000`
    - Frontend development server on `http://localhost:3000`
 
+### 🌐 Deploy to Vercel
+
+Ready to deploy? This app is configured for easy Vercel deployment:
+
+1. **Push to GitHub**
+   ```bash
+   git add .
+   git commit -m "Ready for deployment"
+   git push origin main
+   ```
+
+2. **Deploy to Vercel**
+   - Go to [vercel.com/new](https://vercel.com/new)
+   - Import your GitHub repository
+   - Vercel will auto-detect the settings
+   - Click "Deploy"
+
+3. **Configuration**
+   - Build Command: `npm run vercel-build`
+   - Output Directory: `client/build`
+   - No additional setup needed!
+
+📖 See [DEPLOYMENT.md](DEPLOYMENT.md) for detailed deployment instructions.
+
 ## 📋 Usage Guide
 
 ### Step 1: Extract Text from Figma

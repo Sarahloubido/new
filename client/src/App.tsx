@@ -7,7 +7,11 @@ import Header from './components/Header';
 import { TextElement, ExtractedData } from './types';
 import './App.css';
 
-const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
+const API_BASE_URL = process.env.REACT_APP_API_URL || (
+  process.env.NODE_ENV === 'production' 
+    ? '' // Use relative URLs in production (same domain)
+    : 'http://localhost:5000'
+);
 
 function App() {
   const [extractedData, setExtractedData] = useState<TextElement[]>([]);
