@@ -19,7 +19,11 @@ const SpreadsheetManager: React.FC<SpreadsheetManagerProps> = ({
   const [processingFile, setProcessingFile] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
+  const API_BASE_URL = process.env.REACT_APP_API_URL || (
+    process.env.NODE_ENV === 'production' 
+      ? '' // Use relative URLs in production (same domain)
+      : 'http://localhost:5000'
+  );
 
   const generateSpreadsheet = async (format: 'csv' | 'xlsx') => {
     try {

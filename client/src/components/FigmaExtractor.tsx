@@ -19,7 +19,11 @@ const FigmaExtractor: React.FC<FigmaExtractorProps> = ({
   const [accessToken, setAccessToken] = useState('');
   const [fileInfo, setFileInfo] = useState<FigmaFileInfo | null>(null);
 
-  const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
+  const API_BASE_URL = process.env.REACT_APP_API_URL || (
+    process.env.NODE_ENV === 'production' 
+      ? '' // Use relative URLs in production (same domain)
+      : 'http://localhost:5000'
+  );
 
   const extractFileIdFromUrl = (url: string): string => {
     const match = url.match(/\/file\/([a-zA-Z0-9]+)/);
