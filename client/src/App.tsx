@@ -1,13 +1,10 @@
 import React, { useState } from 'react';
-import axios from 'axios';
 import FigmaExtractor from './components/FigmaExtractor';
 import TextTable from './components/TextTable';
 import SpreadsheetManager from './components/SpreadsheetManager';
 import Header from './components/Header';
-import { TextElement, ExtractedData } from './types';
+import { TextElement } from './types';
 import './App.css';
-
-const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
 
 function App() {
   const [extractedData, setExtractedData] = useState<TextElement[]>([]);

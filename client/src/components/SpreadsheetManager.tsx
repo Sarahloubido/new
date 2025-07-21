@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
 import axios from 'axios';
 import Papa from 'papaparse';
-import { TextElement, SpreadsheetExport, UploadedFile, TextUpdate } from '../types';
+import { TextElement, TextUpdate } from '../types';
 
 interface SpreadsheetManagerProps {
   data: TextElement[];
