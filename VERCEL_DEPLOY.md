@@ -28,9 +28,19 @@ git push origin main
    - **Build Command**: `npm run vercel-build`
    - **Output Directory**: `client/build`
    - **Install Command**: `npm install`
+   - **Root Directory**: `./` (default)
 
 ### 3. Deploy!
 Click "Deploy" and wait for the magic ✨
+
+## 🔧 Build Configuration
+
+The build process:
+1. Installs root dependencies (`npm install`)
+2. Changes to client directory (`cd client`)
+3. Installs client dependencies (`npm install`)
+4. Builds React app (`npm run build`)
+5. Outputs to `client/build/`
 
 ## 🌐 After Deployment
 
@@ -47,6 +57,12 @@ Your deployed app will include:
 - 🔄 **Batch Updates** - Apply changes in bulk
 - 📱 **Responsive UI** - Works on all devices
 - 🚀 **Demo Mode** - Test without Figma API
+
+## 🛠️ Troubleshooting
+
+If you encounter the "Missing script: vercel-build" error:
+- ✅ **Fixed!** The root `package.json` now has the correct `vercel-build` script
+- ✅ **Verified!** Build process tested and working
 
 ## 🆘 Need Help?
 

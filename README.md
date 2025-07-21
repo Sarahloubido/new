@@ -85,6 +85,8 @@ Ready to deploy? This app is configured for easy Vercel deployment:
 3. **Configuration**
    - Build Command: `npm run vercel-build`
    - Output Directory: `client/build`
+   - Install Command: `npm install`
+   - Root Directory: `./` (default)
    - No additional setup needed!
 
 📖 See [DEPLOYMENT.md](DEPLOYMENT.md) for detailed deployment instructions.

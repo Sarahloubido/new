@@ -2,10 +2,6 @@
   "version": 2,
   "builds": [
     {
-      "src": "api/index.js",
-      "use": "@vercel/node"
-    },
-    {
       "src": "package.json",
       "use": "@vercel/static-build",
       "config": {
@@ -13,6 +9,11 @@
       }
     }
   ],
+  "functions": {
+    "api/index.js": {
+      "runtime": "@vercel/node"
+    }
+  },
   "routes": [
     {
       "src": "/api/(.*)",
@@ -22,10 +23,5 @@
       "src": "/(.*)",
       "dest": "/client/build/$1"
     }
-  ],
-  "functions": {
-    "api/index.js": {
-      "maxDuration": 30
-    }
-  }
+  ]
 }
